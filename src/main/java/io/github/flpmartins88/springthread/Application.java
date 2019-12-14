@@ -27,7 +27,7 @@ public class Application implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		IntStream.range(0, 50)
+		IntStream.range(0, 200)
 				.forEach(action -> applicationTaskExecutor.execute(new VeryLongTask()));
 
 		//applicationTaskExecutor.execute(() -> System.exit(0));
@@ -42,7 +42,7 @@ class VeryLongTask implements Runnable {
 	public void run() {
 		try {
 			log.info("Working");
-			Thread.sleep(5 * 1000);
+			Thread.sleep(2 * 1000);
 			log.info("Done");
 		} catch (InterruptedException e) {
 			log.error("Error on thread " + Thread.currentThread().getName(), e);
@@ -60,6 +60,9 @@ class TaskConfig {
 			setThreadGroupName("simple-group");
 			setThreadNamePrefix("simple-");
 			setCorePoolSize(10);
+			setMaxPoolSize(10);
+			setQueueCapacity(200);
+			initialize();
 		}};
 //		ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
 //		taskExecutor.setThreadGroupName("simple-group");
